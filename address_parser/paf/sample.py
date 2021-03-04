@@ -3,7 +3,7 @@ import random
 
 import pandas as pd
 
-from address_parser.paf import chunks_from_iter, csv_records_to_dicts
+from address_parser.paf.util import chunks_from_iter, csv_records_to_dicts
 
 CHUNK_SIZE = 10000
 
