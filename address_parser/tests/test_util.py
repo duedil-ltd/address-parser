@@ -1,6 +1,8 @@
+import numpy as np
 from unittest import TestCase
 
-from address_parser.paf.util import csv_records_to_dicts
+from address_parser.paf import AddressField
+from address_parser.paf.util import csv_records_to_dicts, split_component_chars, encode_address_and_labels
 
 
 class TestUtils(TestCase):
@@ -32,4 +34,62 @@ class TestUtils(TestCase):
                 "number_of_households": "1",
                 "locality_key": "9983"
             }]
+        )
+
+    def test_split_component_chars(self):
+        address_parts = [("25", AddressField.BUILDING_NUMBER),
+                         (" ", AddressField.SEPARATOR),
+                         ("christopher st", AddressField.THOROUGHFARE_AND_DESCRIPTOR)]
+
+        address_char_components = split_component_chars(address_parts)
+        self.assertEqual(address_char_components, [
+            ('2', AddressField.BUILDING_NUMBER),
+            ('5', AddressField.BUILDING_NUMBER),
+            (' ', AddressField.SEPARATOR),
+            ('c', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('i', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('o', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('p', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('e', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            (' ', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR)
+        ])
+
+    def test_encode_address_and_labels(self):
+        address_char_components = [
+            ('2', AddressField.BUILDING_NUMBER),
+            ('5', AddressField.BUILDING_NUMBER),
+            (' ', AddressField.SEPARATOR),
+            ('c', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('i', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('o', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('p', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('e', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            (' ', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR)
+        ]
+        seq_length = 20
+
+        x, y = encode_address_and_labels(address_char_components, seq_length=seq_length)
+        self.assertTrue(
+            np.array_equal(x,
+                           np.array([2, 5, 68, 12, 17, 27, 18, 28, 29, 24, 25, 17, 14, 27, 68, 28, 29, 74, 74, 74]))
+        )
+        self.assertTrue(
+            np.array_equal(y,
+                           np.array([0, 0, 8, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9, 9]))
         )
