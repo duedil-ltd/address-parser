@@ -30,7 +30,7 @@ def main(paf_input_path, output_path):
     random.shuffle(records)
     # Write output to CSV to be pre-processed.
     print(f"Writing sample of size {len(records)} to {output_path}")
-    pd.DataFrame(records).to_csv(output_path, index=False)
+    pd.DataFrame(records).to_csv(output_path, index=False, encoding='utf-8')
 
 
 if __name__ == "__main__":
