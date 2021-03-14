@@ -37,50 +37,50 @@ class TestUtils(TestCase):
         )
 
     def test_split_component_chars(self):
-        address_parts = [("25", AddressField.BUILDING_NUMBER),
-                         (" ", AddressField.SEPARATOR),
-                         ("christopher st", AddressField.THOROUGHFARE_AND_DESCRIPTOR)]
+        address_parts = [("25", AddressField.BUILDING_NUMBER.value),
+                         (" ", AddressField.SEPARATOR.value),
+                         ("christopher st", AddressField.THOROUGHFARE_AND_DESCRIPTOR.value)]
 
         address_char_components = split_component_chars(address_parts)
         self.assertEqual(address_char_components, [
-            ('2', AddressField.BUILDING_NUMBER),
-            ('5', AddressField.BUILDING_NUMBER),
-            (' ', AddressField.SEPARATOR),
-            ('c', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('i', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('o', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('p', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('e', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (' ', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR)
+            ('2', AddressField.BUILDING_NUMBER.value),
+            ('5', AddressField.BUILDING_NUMBER.value),
+            (' ', AddressField.SEPARATOR.value),
+            ('c', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('i', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('o', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('p', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('e', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (' ', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value)
         ])
 
     def test_encode_address_and_labels(self):
         address_char_components = [
-            ('2', AddressField.BUILDING_NUMBER),
-            ('5', AddressField.BUILDING_NUMBER),
-            (' ', AddressField.SEPARATOR),
-            ('c', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('i', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('o', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('p', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('e', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (' ', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR)
+            ('2', AddressField.BUILDING_NUMBER.value),
+            ('5', AddressField.BUILDING_NUMBER.value),
+            (' ', AddressField.SEPARATOR.value),
+            ('c', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('i', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('o', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('p', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('h', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('e', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('r', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (' ', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('s', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            ('t', AddressField.THOROUGHFARE_AND_DESCRIPTOR.value)
         ]
         seq_length = 20
 

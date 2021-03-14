@@ -1,4 +1,5 @@
 import argparse
+import pickle
 
 from address_parser.paf import ADDRESS_FIELD_CLASSES
 from address_parser.paf.util import (
@@ -69,18 +70,36 @@ def _address_char_level_labels(address):
     #     - Introduce typos randomly with some probability
     #     - Introduce some variations of common address words like street, road, avenue, place etc
     address_encoded, address_labels = encode_address_and_labels(address_char_components)
+    return address_encoded, address_labels
 
 
-def main(paf_sample_file):
+def preprocess_addresses(address_dicts):
+    for address in address_dicts:
+        address_encoded, address_labels = _address_char_level_labels(address)
+        yield address_encoded, address_labels
+
+
+def main(paf_sample_file, output_file):
     """
     We have a structured address dataset that we can use to automatically construct a training set
     for address parsing.
     """
+    preprocessed = []
+    chunks = 0
     with open(paf_sample_file, "r") as f:
+        print(f"Processing data in chunks of size {CHUNK_SIZE}")
         for chunk in chunks_from_iter(f.readlines(), CHUNK_SIZE):
             address_dicts = csv_records_to_dicts(chunk)
-            for address in address_dicts:
-                address_char_labels = _address_char_level_labels(address)
+            preprocessed += list(preprocess_addresses(address_dicts))
+            chunks += 1
+            if chunks % 100 == 0:
+                print(f"Processed {chunks} chunks")
+
+    print(f"Writing output to {output_file}")
+    with open(output_file, "wb") as f_out:
+        output = {"address_features": [t[0] for t in preprocessed],
+                  "address_labels": [t[1] for t in preprocessed]}
+        pickle.dump(output, f_out)
 
 
 if __name__ == "__main__":
@@ -88,5 +107,6 @@ if __name__ == "__main__":
     # which should provide enough diversity to train an RNN.
     parser = argparse.ArgumentParser()
     parser.add_argument('--paf-sample-path', required=True, help="Path to sample PAF addresses CSV file")
+    parser.add_argument('--preprocessed-output-path', required=True, help='Path to pickle output file for pre-processed data')
     args = parser.parse_args()
-    main(args.paf_input_path)
+    main(args.paf_sample_path, args.preprocessed_output_path)

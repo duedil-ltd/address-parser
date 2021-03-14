@@ -1,7 +1,8 @@
 import random
 import numpy as np
 
-from address_parser.paf import PAF_SCHEMA, AddressField, VOCAB_CHAR_TO_IDX, PADDING_CHAR, ADDRESS_FIELD_CLASSES
+from address_parser.paf import PAF_SCHEMA, AddressField, VOCAB_CHAR_TO_IDX, PADDING_CHAR, ADDRESS_FIELD_CLASSES, \
+    SEPARATORS
 
 
 def chunks_from_iter(it, n):
@@ -29,113 +30,172 @@ def csv_records_to_dicts(records):
 
 
 def shuffle_components(address):
-    # TODO: Introduce separators between the components from the SEPARATORS string chosen at random
+    # TODO: Remove duplicate separators at random when a field is missing
     choice = random.choice(range(10))
+    # TODO: Maybe more variations of country, also think about ways to include NI, Wales, England.
+    #  Also consider getting rid of country altogether.
+    country = random.choice(["uk", "u.k", "u.k.", "united kingdom", "united k", "united k."])
+    sep = random.choice(SEPARATORS)
     # Different variations of address, all equally likely
     if choice == 0:
         # Full address, typical ordering
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.SUB_BUILDING_NAME], AddressField.SUB_BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.DEPENDENT_LOCALITY], AddressField.DEPENDENT_LOCALITY),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
-            (address[AddressField.COUNTRY], AddressField.COUNTRY),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.DEPENDENT_LOCALITY.value], AddressField.DEPENDENT_LOCALITY.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
+            (sep, AddressField.SEPARATOR.value),
+            (country, AddressField.COUNTRY.value),
         ]
     elif choice == 1:
         # No sub-building name
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.DEPENDENT_LOCALITY], AddressField.DEPENDENT_LOCALITY),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
-            (address[AddressField.COUNTRY], AddressField.COUNTRY),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.DEPENDENT_LOCALITY.value], AddressField.DEPENDENT_LOCALITY.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
+            (sep, AddressField.SEPARATOR.value),
+            (country, AddressField.COUNTRY.value),
         ]
     elif choice == 2:
         # No dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.SUB_BUILDING_NAME], AddressField.SUB_BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
-            (address[AddressField.COUNTRY], AddressField.COUNTRY),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
+            (sep, AddressField.SEPARATOR.value),
+            (country, AddressField.COUNTRY.value),
         ]
     elif choice == 3:
         # No sub-building name or dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
-            (address[AddressField.COUNTRY], AddressField.COUNTRY),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
+            (sep, AddressField.SEPARATOR.value),
+            (country, AddressField.COUNTRY.value),
         ]
     elif choice == 4:
         # No post town
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.SUB_BUILDING_NAME], AddressField.SUB_BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.DEPENDENT_LOCALITY], AddressField.DEPENDENT_LOCALITY),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
-            (address[AddressField.COUNTRY], AddressField.COUNTRY),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.DEPENDENT_LOCALITY.value], AddressField.DEPENDENT_LOCALITY.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
+            (sep, AddressField.SEPARATOR.value),
+            (country, AddressField.COUNTRY.value),
         ]
     elif choice == 5:
         # No post town or dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.SUB_BUILDING_NAME], AddressField.SUB_BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
-            (address[AddressField.COUNTRY], AddressField.COUNTRY),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
+            (sep, AddressField.SEPARATOR.value),
+            (country, AddressField.COUNTRY.value),
         ]
     elif choice == 6:
         # No country
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.SUB_BUILDING_NAME], AddressField.SUB_BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.DEPENDENT_LOCALITY], AddressField.DEPENDENT_LOCALITY),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.DEPENDENT_LOCALITY.value], AddressField.DEPENDENT_LOCALITY.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
         ]
     elif choice == 7:
         # No country or sub-building name
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.DEPENDENT_LOCALITY], AddressField.DEPENDENT_LOCALITY),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.DEPENDENT_LOCALITY.value], AddressField.DEPENDENT_LOCALITY.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
         ]
     elif choice == 8:
         # No country or sub-building name or dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.POSTTOWN], AddressField.POSTTOWN),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTTOWN.value], AddressField.POSTTOWN.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
         ]
     else:
         # No country or post town
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER], AddressField.BUILDING_NUMBER),
-            (address[AddressField.BUILDING_NAME], AddressField.BUILDING_NAME),
-            (address[AddressField.SUB_BUILDING_NAME], AddressField.SUB_BUILDING_NAME),
-            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR], AddressField.THOROUGHFARE_AND_DESCRIPTOR),
-            (address[AddressField.DEPENDENT_LOCALITY], AddressField.DEPENDENT_LOCALITY),
-            (address[AddressField.POSTCODE], AddressField.POSTCODE),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.DEPENDENT_LOCALITY.value], AddressField.DEPENDENT_LOCALITY.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
         ]
 
     return address_parts
@@ -184,7 +244,7 @@ def _encode_labels(address_char_parts, seq_length):
 
     returns a numpy array where each character is encoded as the class to which it belongs (inc padding)
     """
-    labels_arr = [ADDRESS_FIELD_CLASSES[AddressField.PADDING]] * seq_length
+    labels_arr = [ADDRESS_FIELD_CLASSES[AddressField.PADDING.value]] * seq_length
     # Truncate past seq_length
     address_char_parts = address_char_parts[:seq_length]
     i = 0

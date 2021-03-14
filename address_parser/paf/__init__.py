@@ -39,20 +39,20 @@ class AddressField(Enum):
 
 
 ADDRESS_FIELD_CLASSES = {
-    AddressField.BUILDING_NUMBER: 0,
-    AddressField.BUILDING_NAME: 1,
-    AddressField.SUB_BUILDING_NAME: 2,
-    AddressField.THOROUGHFARE_AND_DESCRIPTOR: 3,
-    AddressField.DEPENDENT_LOCALITY: 4,
-    AddressField.POSTTOWN: 5,
-    AddressField.POSTCODE: 6,
-    AddressField.COUNTRY: 7,
-    AddressField.SEPARATOR: 8,
-    AddressField.PADDING: 9
+    AddressField.BUILDING_NUMBER.value: 0,
+    AddressField.BUILDING_NAME.value: 1,
+    AddressField.SUB_BUILDING_NAME.value: 2,
+    AddressField.THOROUGHFARE_AND_DESCRIPTOR.value: 3,
+    AddressField.DEPENDENT_LOCALITY.value: 4,
+    AddressField.POSTTOWN.value: 5,
+    AddressField.POSTCODE.value: 6,
+    AddressField.COUNTRY.value: 7,
+    AddressField.SEPARATOR.value: 8,
+    AddressField.PADDING.value: 9
 }
 
 
-SEPARATORS = r",.\  "
+SEPARATORS = [",", " ", " ", ", "]
 PADDING_CHAR = "|"
 # Copied from https://github.com/jasonrig/address-net/blob/master/addressnet/dataset.py#L70
 VOCAB = list(string.digits + string.ascii_lowercase + string.punctuation + string.whitespace) + [PADDING_CHAR]
