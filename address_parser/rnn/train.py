@@ -58,6 +58,31 @@ def train(records):
             model.zero_grad()
 
             out, hidden = model(X, hidden)
+            """
+            Align y for computing CrossEntropyLoss. We know that the shape of `out` is
+                (BATCH_SIZE * SEQ_LENGTH, OUTPUT_DIM), i.e. a logit score per output class per character in a batch
+            so we shape `y` to be
+                a vector tensor of dim BATCH_SIZE * SEQ_LENGTH -> True class label per character in the batch.
+
+            This is similar to the below example
+            >>> target = torch.empty(3, dtype=torch.long).random_(5)
+            >>> target
+            tensor([2, 4, 4])
+            >>> output = torch.Tensor([[0, 0 , 20, 0, 0], [0, 0, 0, 0, 14], [0, 0, 0, 0, 25]])
+            >>> output
+            tensor([[ 0.,  0., 20.,  0.,  0.],
+                    [ 0.,  0.,  0.,  0., 14.],
+                    [ 0.,  0.,  0.,  0., 25.]])
+            >>> loss = nn.CrossEntropyLoss()
+            >>> loss(output, target).item()
+            1.1126181789222755e-06
+
+            where target is a vector tensor of dim 3 and the values being some class label between 0 and 4
+            and output is a tensor of dim (3, 5) where each element of row i is the scores for each of the 5 classes.
+            The small loss value shows that the cross entropy loss is behaving as expected for the example provided,
+            since the output has high scores for the correct class labels at the corresponding indexes and zero
+            elsewhere.
+            """
             loss = criterion(out, y.reshape(BATCH_SIZE * SEQ_LENGTH))
 
             loss.backward()
