@@ -99,7 +99,7 @@ def train(records):
     return model
 
 
-def main(paf_sample_file):
+def main(paf_sample_file, model_output_path):
     """
     We have a structured address dataset that we can use to automatically construct a training set
     for address parsing.
@@ -111,10 +111,15 @@ def main(paf_sample_file):
             records += csv_records_to_dicts(chunk)
     print(f"Starting training with {len(records)} address records")
     model = train(records)
+    print("Training complete")
+    print("Saving model..")
+    torch.save(model, model_output_path)
+    print("Done!")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--paf-sample-path', required=True, help="Path to sample PAF addresses CSV file")
+    parser.add_argument('--model-output-path', required=True, help="Output path to save model object")
     args = parser.parse_args()
-    main(args.paf_sample_path)
+    main(args.paf_sample_path, args.model_output_path)
