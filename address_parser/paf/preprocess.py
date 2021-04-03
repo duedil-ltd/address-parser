@@ -9,7 +9,7 @@ from address_parser.paf.util import (
 CHUNK_SIZE = 1000
 
 
-def _address_char_level_labels(address):
+def _address_char_level_labels(address, seq_length):
     """
     Initial address prep.
 
@@ -69,13 +69,13 @@ def _address_char_level_labels(address):
     # TODO: Add extra step before the encoding to:
     #     - Introduce typos randomly with some probability
     #     - Introduce some variations of common address words like street, road, avenue, place etc
-    address_encoded, address_labels = encode_address_and_labels(address_char_components)
+    address_encoded, address_labels = encode_address_and_labels(address_char_components, seq_length)
     return address_encoded, address_labels
 
 
-def preprocess_addresses(address_dicts):
+def preprocess_addresses(address_dicts, seq_length):
     for address in address_dicts:
-        address_encoded, address_labels = _address_char_level_labels(address)
+        address_encoded, address_labels = _address_char_level_labels(address, seq_length)
         yield address_encoded, address_labels
 
 
@@ -90,7 +90,7 @@ def main(paf_sample_file, output_file):
         print(f"Processing data in chunks of size {CHUNK_SIZE}")
         for chunk in chunks_from_iter(f.readlines(), CHUNK_SIZE):
             address_dicts = csv_records_to_dicts(chunk)
-            preprocessed += list(preprocess_addresses(address_dicts))
+            preprocessed += list(preprocess_addresses(address_dicts, seq_length=100))
             chunks += 1
             if chunks % 100 == 0:
                 print(f"Processed {chunks} chunks")
