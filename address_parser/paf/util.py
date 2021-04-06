@@ -216,6 +216,16 @@ def split_component_chars(address_parts):
     return char_arr
 
 
+def encode_address_str(address, seq_length):
+    """
+    encode a plain address string
+    """
+    address = address.lower()
+    # The _encode_address expects tuples of (char, label), but in this case we don't care about labels.
+    with_dummy_labels = [(c, random.random()) for c in address]
+    return _encode_address(with_dummy_labels, seq_length)
+
+
 def _encode_address(address_char_parts, seq_length):
     """
     address_parts: list of the form [(<char_1>, <char_1_label>), .... ]
