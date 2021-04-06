@@ -10,7 +10,8 @@ class AddressRNN(nn.Module):
         self._lstm_dim = lstm_dim
         self._lstm_layers = lstm_layers
         self._train_on_gpu = train_on_gpu
-        self._output_dim = output_dim
+        self.output_dim = output_dim
+        self.seq_length = seq_length
 
         self._embed = nn.Embedding(len(vocab), embedding_dim)
         self._lstm = nn.LSTM(input_size=embedding_dim,
@@ -53,4 +54,3 @@ class AddressRNN(nn.Module):
             )
 
         return hidden
-
