@@ -3,6 +3,7 @@ from collections import defaultdict
 import torch
 
 from address_parser.paf import VOCAB_IDX_TO_CHAR, ADDRESS_FIELD_IDX_TO_CLASS
+from address_parser.paf.util import encode_address_str
 
 
 def address_components_from_pred(encoded_addresses, pred_addresses):
@@ -30,6 +31,13 @@ def address_components_from_pred(encoded_addresses, pred_addresses):
         final_structured_addresses.append(predicted_structured_address)
 
     return final_structured_addresses
+
+
+def parse_raw_address(address, model):
+    address_enc = encode_address_str(address, model.seq_length)
+    pred = predict_one(address_enc, model)
+    parsed_components = address_components_from_pred([address_enc], [pred])
+    return parsed_components[0]
 
 
 def predict_one(address_encoded, model):
