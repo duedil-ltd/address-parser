@@ -52,6 +52,9 @@ ADDRESS_FIELD_CLASSES = {
 }
 
 
+# Need the reverse mapping for re-constructing address components from model outputs.
+ADDRESS_FIELD_IDX_TO_CLASS = dict((t[1], t[0]) for t in ADDRESS_FIELD_CLASSES.items())
+
 SEPARATORS = [",", " ", " ", ", "]
 PADDING_CHAR = "|"
 # Copied from https://github.com/jasonrig/address-net/blob/master/addressnet/dataset.py#L70
