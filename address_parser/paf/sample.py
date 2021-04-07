@@ -8,7 +8,7 @@ from address_parser.paf.util import chunks_from_iter, csv_records_to_dicts
 CHUNK_SIZE = 10000
 
 
-def _get_sample(file_path, sample_proportion=0.01):
+def _get_sample(file_path, sample_proportion=0.02):
     records = []
     chunks_processed = 0
     with open(file_path, "r", encoding='windows-1252') as f:
