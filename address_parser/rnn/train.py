@@ -19,7 +19,7 @@ SEQ_LENGTH = 50
 LR = 0.001
 VOCAB = VOCAB_IDX_TO_CHAR.keys()
 CLIP = 5
-EPOCHS = 5
+EPOCHS = 3
 
 
 def train(records):
