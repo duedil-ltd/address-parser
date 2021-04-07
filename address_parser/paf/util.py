@@ -40,11 +40,11 @@ def shuffle_components(address):
     if choice == 0:
         # Full address, typical ordering
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
-            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -59,9 +59,9 @@ def shuffle_components(address):
     elif choice == 1:
         # No sub-building name
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
-            (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -76,11 +76,11 @@ def shuffle_components(address):
     elif choice == 2:
         # No dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
-            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -93,9 +93,9 @@ def shuffle_components(address):
     elif choice == 3:
         # No sub-building name or dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
-            (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -108,11 +108,11 @@ def shuffle_components(address):
     elif choice == 4:
         # No post town
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
-            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -125,11 +125,11 @@ def shuffle_components(address):
     elif choice == 5:
         # No post town or dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
-            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -140,11 +140,11 @@ def shuffle_components(address):
     elif choice == 6:
         # No country
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
-            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -157,9 +157,9 @@ def shuffle_components(address):
     elif choice == 7:
         # No country or sub-building name
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
-            (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -172,9 +172,9 @@ def shuffle_components(address):
     elif choice == 8:
         # No country or sub-building name or dependent locality
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
-            (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
+            (sep, AddressField.SEPARATOR.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
@@ -185,11 +185,11 @@ def shuffle_components(address):
     else:
         # No country or post town
         address_parts = [
-            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
+            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.BUILDING_NAME.value], AddressField.BUILDING_NAME.value),
             (sep, AddressField.SEPARATOR.value),
-            (address[AddressField.SUB_BUILDING_NAME.value], AddressField.SUB_BUILDING_NAME.value),
+            (address[AddressField.BUILDING_NUMBER.value], AddressField.BUILDING_NUMBER.value),
             (sep, AddressField.SEPARATOR.value),
             (address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value], AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
             (sep, AddressField.SEPARATOR.value),
