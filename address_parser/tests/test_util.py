@@ -3,10 +3,16 @@ from unittest import TestCase
 
 from address_parser.paf import AddressField
 from address_parser.paf.util import csv_records_to_dicts, split_component_chars, encode_address_and_labels, \
-    remove_empty_fields
+    remove_empty_fields, chunks_from_iter
 
 
 class TestUtils(TestCase):
+    def test_chunks_from_iter(self):
+        self.assertEqual(list(chunks_from_iter(iter(range(10)), 3)), [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]])
+        self.assertEqual(list(chunks_from_iter(iter(range(5)), 5)), [[0, 1, 2, 3, 4]])
+        self.assertEqual(list(chunks_from_iter(iter(range(5)), 1)), [[0], [1], [2], [3], [4]])
+        self.assertEqual(list(chunks_from_iter([], 2)), [])
+
     def test_csv_records_to_dicts(self):
         csv_records = [
             "TN22 3BD,UCKFIELD,Fairwarp,,Nursery Lane,, ,The Old Vicarage,,,,,24708670,S, ,1W,21108384,0,1,9983",
