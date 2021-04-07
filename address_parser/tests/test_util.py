@@ -2,7 +2,8 @@ import numpy as np
 from unittest import TestCase
 
 from address_parser.paf import AddressField
-from address_parser.paf.util import csv_records_to_dicts, split_component_chars, encode_address_and_labels
+from address_parser.paf.util import csv_records_to_dicts, split_component_chars, encode_address_and_labels, \
+    remove_empty_fields
 
 
 class TestUtils(TestCase):
@@ -35,6 +36,22 @@ class TestUtils(TestCase):
                 "locality_key": "9983"
             }]
         )
+
+    def test_remove_empty_fields(self):
+        address_parts = [("25", AddressField.BUILDING_NUMBER.value),
+                         (" ", AddressField.SEPARATOR.value),
+                         ("", AddressField.SUB_BUILDING_NAME.value),
+                         (" ", AddressField.SEPARATOR.value),
+                         ("christopher st", AddressField.THOROUGHFARE_AND_DESCRIPTOR.value),
+                         (" ", AddressField.SEPARATOR.value),
+                         ("", AddressField.POSTTOWN.value)]
+
+        result = remove_empty_fields(address_parts)
+        self.assertEqual(result, [
+            ("25", AddressField.BUILDING_NUMBER.value),
+            (" ", AddressField.SEPARATOR.value),
+            ("christopher st", AddressField.THOROUGHFARE_AND_DESCRIPTOR.value)
+        ])
 
     def test_split_component_chars(self):
         address_parts = [("25", AddressField.BUILDING_NUMBER.value),

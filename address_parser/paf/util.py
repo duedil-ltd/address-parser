@@ -198,12 +198,29 @@ def shuffle_components(address):
             (address[AddressField.POSTCODE.value], AddressField.POSTCODE.value),
         ]
 
-    return address_parts
+    return remove_empty_fields(address_parts)
+
+
+def remove_empty_fields(address_parts):
+    """
+    Remove empty parts along with the separator that follows them
+    :param address_parts: list of the form [(<address_part_1>, <address_part_1_label>), .... ]
+    """
+    final_parts = []
+    for i in range(0, len(address_parts), 2):
+        if address_parts[i][0] is not None and address_parts[i][0] != "":
+            final_parts.append(address_parts[i])
+            # Add separator for intermediate populated field
+            if i < len(address_parts) - 1:
+                final_parts.append(address_parts[i + 1])
+
+    # Remove trailing separator if there is one
+    return final_parts if final_parts[-1][1] != AddressField.SEPARATOR.value else final_parts[:-1]
 
 
 def split_component_chars(address_parts):
     """
-    address_parts: list of the form [(<address_part_1>, <address_part_1_label>), .... ]
+    :param address_parts: list of the form [(<address_part_1>, <address_part_1_label>), .... ]
 
     returns [(<char_0>, <address_comp_for_char_0), (<char_1>, <address_comp_for_char_1),.., (<char_n-1>, <address_comp_for_char_n-1)]
     """
