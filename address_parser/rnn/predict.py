@@ -27,7 +27,12 @@ def main(test_file, model_path):
     all_records = []
     with open(test_file, "r") as f:
         for chunk in chunks_from_iter(f.readlines(), CHUNK_SIZE):
-            chunk_res = [parse_raw_address(add.strip(), model) for add in chunk]
+            chunk_res = []
+            for add in chunk:
+                add = add.strip()
+                parsed_add = parse_raw_address(add, model)
+                parsed_add["full_address"] = add
+                chunk_res.append(parsed_add)
             results.extend(chunk_res)
             chunks += 1
             if chunks % 10 == 0:
