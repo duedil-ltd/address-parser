@@ -8,9 +8,10 @@ from address_parser.paf import ADDRESS_FIELD_CLASSES, VOCAB_IDX_TO_CHAR
 from address_parser.paf.preprocess import preprocess_addresses
 from address_parser.paf.util import chunks_from_iter, csv_records_to_dicts
 from address_parser.rnn import AddressRNN
+from address_parser.rnn.util import accuracy
 
 CHUNK_SIZE = 1000
-BATCH_SIZE = 1000
+BATCH_SIZE = 512
 LSTM_DIM = 128
 LSTM_LAYERS = 2
 OUTPUT_DIM = len(ADDRESS_FIELD_CLASSES)
@@ -18,13 +19,7 @@ SEQ_LENGTH = 50
 LR = 0.001
 VOCAB = VOCAB_IDX_TO_CHAR.keys()
 CLIP = 5
-EPOCHS = 3
-
-
-def _accuracy(out, y):
-    # Accuracy calculated based on the correct classification of each character in each address in the batch
-    class_preds = out.argmax(dim=1)
-    return (torch.sum(class_preds == y) / len(y)).item()
+EPOCHS = 5
 
 
 def train(records):
@@ -98,7 +93,7 @@ def train(records):
             loss = criterion(out, y_reshaped)
             loss.backward()
 
-            acc = _accuracy(out, y_reshaped)
+            acc = accuracy(out, y_reshaped)
             accs.append(acc)
 
             # Clip gradients to avoid exploding gradients

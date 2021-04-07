@@ -60,3 +60,9 @@ def predict(addresses_encoded, model):
     preds = preds.view(batch_size, -1, model.output_dim)
     # Highest scoring class per character (first dim is the batch size)
     return preds.argmax(dim=2)
+
+
+def accuracy(out, target):
+    # Accuracy calculated based on the correct classification of each element in each row in a batch.
+    class_preds = out.argmax(dim=1)
+    return (torch.sum(class_preds == target) / len(target)).item()
