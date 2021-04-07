@@ -38,7 +38,8 @@ def main(test_file, model_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--test-path', required=True, help="Path to test address CSV file")
+    # This file should have an address per line
+    parser.add_argument('--test-path', required=True, help="Path to test address file")
     parser.add_argument('--model-path', required=True, help="Path to trained model")
     args = parser.parse_args()
     main(args.test_path, args.model_path)
