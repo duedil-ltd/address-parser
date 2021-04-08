@@ -17,6 +17,22 @@ under `pretrained/`.
 
 Now we will walk through the various components of this repo.
 
+# Setting up
+
+This is a Python 3 project that uses pyenv and virtualenv to create the environment and install the dependencies needed.
+The project was tested on Python 3.8.0 but it should work with some earlier distributions provided they support f-strings.
+
+Assuming pyenv is installed and you have Python 3.8.0, run the following from the root of this repo
+
+```console
+pyenv local 3.8.0
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r requirements.pip
+```
+
+which should activate the virtualenv and install all the dependencies.
+
 # Components
 
 ### Sampling
@@ -59,6 +75,7 @@ parses the provided addresses into the address components and returns the origin
 
 As you can't train this model without access to the PAF data, we provide a pre-trained model that you can use to extract
 structure from a simple address string. Pretrained models are under the `pretrained/` dir and you can use them as shown below
+(Tested with torch version 1.7.1)
 
 ```python
 >>> import torch
