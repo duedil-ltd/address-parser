@@ -17,12 +17,14 @@ under `pretrained/`.
 
 Now we will walk through the various components of this repo.
 
-# Sampling
+# Components
+
+### Sampling
 
 The `sample.py` script takes in a input path to the full PAF file and output path to a sample output and produces
 a sample of the records specified by some proportion. For the models we trained we sampled 2%, which is ~600K addresses.
 
-# Pre-processing
+### Pre-processing
 
 This is optional in case you want to save the pre-processed/transformed data. The `preprocess.py` script performs the following
 
@@ -31,11 +33,11 @@ This is optional in case you want to save the pre-processed/transformed data. Th
 address structures, as well as removing some address components at random. Since we're constructing a training set programmatically,
 it's important that we try and introduce as much variation to try and capture various forms of addresses that a human would
 possibly write.
-- Split each address component string into pairs of (<char>, <label>). The ML model we're using is a character-level
+- Split each address component string into a list of tuples of `(<char>, <label>)`. The ML model we're using is a character-level
 RNN so we need to construct a character-level representation to be fed to the network.
 - Map characters and labels to integer representations, thus finalising the preprocessing step.
 
-# Training
+### Training
 
 The `train.py` script performs both the pre-processing step described earlier as well as the training. The reason for this is
 we found the pre-processing step was fairly quick compared to training so it allowed for rapid iteration to make tweaks on both
@@ -48,6 +50,11 @@ passed through a fully connected linear layer to produce a distribution of logit
 
 Training loss and accuracy are reported throughout the training process.
 
+### Prediction
+
+A `predict.py` script is provided that can be used with a CSV file containing a single column of address lines. This script
+parses the provided addresses into the address components and returns the original address along with the parsed components.
+
 # Using pre-trained model
 
 As you can't train this model without access to the PAF data, we provide a pre-trained model that you can use to extract
@@ -58,8 +65,8 @@ structure from a simple address string. Pretrained models are under the `pretrai
 >>> from address_parser.rnn.util import parse_raw_address
 >>> model = torch.load("./pretrained/address_rnn.pt")
 
->>> parse_raw_address("25 Christopher street, moorgate, eC2a 2bs, uk", model)
-defaultdict(<class 'str'>, {'building_number': '25', 'separator': ' , , , ', 'thoroughfare_and_descriptor': 'christopher street', 'posttown': 'moorgate', 'postcode': 'ec2a 2bs', 'country': 'uk', 'padding': '|||||'})
+>>> parse_raw_address("25 Christopher street, moorgate, london, eC2a 2bs, uk", model)
+defaultdict(<class 'str'>, {'building_number': '25', 'separator': ' , , , ,', 'thoroughfare_and_descriptor': 'christopher street', 'dependent_locality': 'moorgate', 'posttown': 'london', 'postcode': 'ec2a 2bs'})
 
 >>> parse_raw_address("165 Fleet Street, London EC4A 2DY", model)  # No country
 defaultdict(<class 'str'>, {'building_number': '165', 'separator': ' ,  ', 'thoroughfare_and_descriptor': 'fleet street', 'posttown': 'london', 'postcode': 'ec4a 2dy', 'padding': '|||||||||||||||||'})
@@ -90,5 +97,5 @@ to variations.
 This is an open source project licensed under MIT license. Anyone is free to use this software for personal or commercial purposes,
 including the pretrained models supplied. This repo won't expose any of the data used in training due to distribution restrictions.
 The scripts for sampling, pre-processing and training should be usable out-of-the-box with the PAF address file for users who have
-access to the data. See [here]([PAF documentation](https://www.poweredbypaf.com/product/paf/)) for more details on PAF data and how you can
+access to the data. See [here](https://www.poweredbypaf.com/product/paf/) for more details on PAF data and how you can
 get access to it.
