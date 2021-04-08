@@ -16,7 +16,7 @@ def _address_char_level_labels(address, seq_length):
     Steps
     1- Construct an address string from the input, getting rid of things like organisation name, udprn etc, as well as
         adding country at the end (need to think about whether it should be just UK, or break down by regions).
-    2- Standardise casing to lower case and remove punctuation.
+    2- Standardise casing to lower case.
     3- Apply some shuffling of the components with some probability so that the dataset is more realistic.
         However, make sure the shuffling is realistic and in line with how a human would write an address. For example,
         it's uncommon for people to write an address in the form

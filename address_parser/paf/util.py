@@ -237,7 +237,8 @@ def encode_address_str(address, seq_length):
     """
     encode a plain address string
     """
-    address = address.lower()
+    # Lower case and remove any characters not in vocabulary
+    address = "".join(c for c in address.lower() if c in VOCAB_CHAR_TO_IDX)
     # The _encode_address expects tuples of (char, label), but in this case we don't care about labels.
     with_dummy_labels = [(c, random.random()) for c in address]
     return _encode_address(with_dummy_labels, seq_length)
