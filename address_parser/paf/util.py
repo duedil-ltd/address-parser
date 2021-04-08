@@ -5,7 +5,7 @@ from address_parser.paf import PAF_SCHEMA, AddressField, VOCAB_CHAR_TO_IDX, PADD
     SEPARATORS
 
 
-def chunks_from_iter(it, n):
+def chunks_from_iter(it, n, full_chunks_only=False):
     """Yield successive n-sized chunks from iterator"""
     enumerated = enumerate(it)
     elem = next(enumerated, None)
@@ -18,7 +18,8 @@ def chunks_from_iter(it, n):
             chunk = [elem[1]]
         elem = next(enumerated, None)
     if chunk:
-        yield chunk
+        if (not full_chunks_only) or len(chunk) == n:
+            yield chunk
 
 
 def csv_records_to_dicts(records):

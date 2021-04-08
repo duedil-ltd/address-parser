@@ -7,11 +7,20 @@ from address_parser.paf.util import csv_records_to_dicts, split_component_chars,
 
 
 class TestUtils(TestCase):
-    def test_chunks_from_iter(self):
+    def test_chunks_from_iter_partial_chunks_allowed(self):
         self.assertEqual(list(chunks_from_iter(iter(range(10)), 3)), [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]])
         self.assertEqual(list(chunks_from_iter(iter(range(5)), 5)), [[0, 1, 2, 3, 4]])
         self.assertEqual(list(chunks_from_iter(iter(range(5)), 1)), [[0], [1], [2], [3], [4]])
         self.assertEqual(list(chunks_from_iter([], 2)), [])
+
+    def test_chunks_from_iter_full_chunks_only(self):
+        self.assertEqual(list(chunks_from_iter(iter(range(10)), 3, full_chunks_only=True)),
+                         [[0, 1, 2], [3, 4, 5], [6, 7, 8]])
+        self.assertEqual(list(chunks_from_iter(iter(range(5)), 5, full_chunks_only=True)),
+                         [[0, 1, 2, 3, 4]])
+        self.assertEqual(list(chunks_from_iter(iter(range(5)), 1, full_chunks_only=True)),
+                         [[0], [1], [2], [3], [4]])
+        self.assertEqual(list(chunks_from_iter([], 2, full_chunks_only=True)), [])
 
     def test_csv_records_to_dicts(self):
         csv_records = [
