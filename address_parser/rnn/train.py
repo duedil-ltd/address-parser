@@ -12,20 +12,19 @@ from address_parser.rnn.util import accuracy
 
 CHUNK_SIZE = 1000
 BATCH_SIZE = 512
-LSTM_DIM = 128
+LSTM_DIM = 256
 LSTM_LAYERS = 2
 OUTPUT_DIM = len(ADDRESS_FIELD_CLASSES)
-SEQ_LENGTH = 50
+SEQ_LENGTH = 60
 LR = 0.001
 VOCAB = VOCAB_IDX_TO_CHAR.keys()
 CLIP = 5
 EPOCHS = 3
 
 
-def train(records):
+def train(preprocessed_records):
     """
-    :param records: list of address dict records from PAF.
-    TODO: Do pre-processing outside of this method and pass here pairs of encoded address and label arrays
+    :param preprocessed_records: List of pairs of encoded_address, address_char_classes
     """
     train_on_gpu = torch.cuda.is_available()
     model = AddressRNN(vocab=VOCAB, lstm_dim=LSTM_DIM, lstm_layers=LSTM_LAYERS,
@@ -48,13 +47,9 @@ def train(records):
         batches = 0
         loss = None
         accs = []
-        for batch in chunks_from_iter(preprocess_addresses(records, seq_length=SEQ_LENGTH), BATCH_SIZE):
+        for batch in chunks_from_iter(preprocessed_records, n=BATCH_SIZE, full_chunks_only=True):
             X = torch.from_numpy(np.array([t[0] for t in batch]))
             y = torch.from_numpy(np.array([t[1] for t in batch]))
-            # Getting rid of incomplete batches
-            # TODO: Do this in pre-processing step
-            if X.shape[0] < BATCH_SIZE:
-                continue
             if train_on_gpu:
                 X = X.cuda()
                 y = y.cuda()
@@ -96,7 +91,7 @@ def train(records):
             acc = accuracy(out, y_reshaped)
             accs.append(acc)
 
-            # Clip gradients to avoid exploding gradients
+            # To avoid exploding gradients
             nn.utils.clip_grad_norm_(model.parameters(), CLIP)
             optimizer.step()
 
@@ -121,8 +116,11 @@ def main(paf_sample_file, model_output_path):
     with open(paf_sample_file, "r") as f:
         for chunk in chunks_from_iter(f.readlines(), CHUNK_SIZE):
             records += csv_records_to_dicts(chunk)
-    print(f"Starting training with {len(records)} address records")
-    model = train(records)
+    # List (encoded address, address char labels) pairs. Has to be a materialised list as this
+    # collection will be iterated over multiple times.
+    preprocessed_adds = list(preprocess_addresses(records, seq_length=SEQ_LENGTH))
+    print(f"Starting training with {len(records)} address records and a batch size of {BATCH_SIZE}")
+    model = train(preprocessed_adds)
     print("Training complete")
     print("Saving model..")
     torch.save(model, model_output_path)
