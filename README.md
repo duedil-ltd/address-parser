@@ -107,6 +107,9 @@ some limitations and potential improvements that can be done and they are explai
 to variations.
 - Introducing typos in some examples using neighbouring character mapping (which is done in address-net).
 - Experimenting with different network architectures (for example using GRU layers) as well as different hyperparameters.
+- Randomly introducing spaces as separators could be hurting the training process. So one consideration could be to avoid using
+spaces between address components since a human filling in an address typically will use a different separator than spaces
+to delineate address components.
 
 
 # NOTE on usage
