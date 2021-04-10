@@ -51,13 +51,16 @@ ADDRESS_FIELD_CLASSES = {
     AddressField.PADDING.value: 9
 }
 
-
 # Need the reverse mapping for re-constructing address components from model outputs.
 ADDRESS_FIELD_IDX_TO_CLASS = dict((t[1], t[0]) for t in ADDRESS_FIELD_CLASSES.items())
 
-SEPARATORS = [",", " ", " ", ", "]
+SEPARATORS = [",", " ", "  ", ", "]
 PADDING_CHAR = "|"
 # Copied from https://github.com/jasonrig/address-net/blob/master/addressnet/dataset.py#L70
 VOCAB = list(string.digits + string.ascii_lowercase + string.punctuation + string.whitespace) + [PADDING_CHAR]
 VOCAB_IDX_TO_CHAR = dict(enumerate(VOCAB))
 VOCAB_CHAR_TO_IDX = dict((t[1], t[0]) for t in VOCAB_IDX_TO_CHAR.items())
+
+STREET_VARIANTS = ["st", "st.", "street"]
+AVENUE_VARIANTS = ["av", "av.", "ave", "avenue"]
+ROAD_VARIANTS = ["rd", "rd.", "road"]

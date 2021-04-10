@@ -2,7 +2,7 @@ import random
 import numpy as np
 
 from address_parser.paf import PAF_SCHEMA, AddressField, VOCAB_CHAR_TO_IDX, PADDING_CHAR, ADDRESS_FIELD_CLASSES, \
-    SEPARATORS
+    SEPARATORS, STREET_VARIANTS, AVENUE_VARIANTS, ROAD_VARIANTS
 
 
 def chunks_from_iter(it, n, full_chunks_only=False):
@@ -30,6 +30,20 @@ def csv_records_to_dicts(records):
     return dict_records
 
 
+def _map_street_variants(thoroughfare_desc):
+    for s in STREET_VARIANTS:
+        if s in thoroughfare_desc:
+            return thoroughfare_desc.replace(s, random.choice(STREET_VARIANTS))
+
+    for s in AVENUE_VARIANTS:
+        if s in thoroughfare_desc:
+            return thoroughfare_desc.replace(s, random.choice(AVENUE_VARIANTS))
+
+    for s in ROAD_VARIANTS:
+        if s in thoroughfare_desc:
+            return thoroughfare_desc.replace(s, random.choice(ROAD_VARIANTS))
+
+
 def shuffle_components(address):
     # TODO: Remove duplicate separators at random when a field is missing
     choice = random.choice(range(10))
@@ -37,6 +51,11 @@ def shuffle_components(address):
     #  Also consider getting rid of country altogether.
     country = random.choice(["uk", "u.k", "u.k.", "united kingdom", "united k", "united k."])
     sep = random.choice(SEPARATORS)
+
+    # Randomly map street, avenue, road to equivalent representations to build robustness
+    thoroughfare_desc = address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value]
+    address[AddressField.THOROUGHFARE_AND_DESCRIPTOR.value] = _map_street_variants(thoroughfare_desc)
+
     # Different variations of address, all equally likely
     if choice == 0:
         # Full address, typical ordering
