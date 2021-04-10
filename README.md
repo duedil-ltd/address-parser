@@ -60,7 +60,7 @@ we found the pre-processing step was fairly quick compared to training so it all
 the pre-processing logic and modeling simultaneously without having to run two separate scripts. In the future we might refactor
 the code to make pre-processing happen strictly in the preprocess script for better separation of concerns.
 
-The training process follows a standard Deep Learning workflow for training a RNN. The model we used is a bi-directional
+The training process follows a standard Deep Learning workflow for training an RNN. The model we used is a bi-directional
 LSTM with a preceding embedding layer, trained on batches of preprocessed data. Outputs of the LSTM layers are flattened and then
 passed through a fully connected linear layer to produce a distribution of logit scores over address classes for each character in a given batch.
 
@@ -80,7 +80,7 @@ structure from a simple address string. Pretrained models are under the `pretrai
 ```python
 >>> import torch
 >>> from address_parser.rnn.util import parse_raw_address
->>> model = torch.load("./pretrained/address_rnn.pt")
+>>> model = torch.load("./pretrained/address_char_rnn.pt")
 
 >>> parse_raw_address("25 Christopher street, moorgate, london, eC2a 2bs, uk", model)
 defaultdict(<class 'str'>, {'building_number': '25', 'separator': ' , , , ,', 'thoroughfare_and_descriptor': 'christopher street', 'dependent_locality': 'moorgate', 'posttown': 'london', 'postcode': 'ec2a 2bs'})
