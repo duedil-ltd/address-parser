@@ -21,6 +21,7 @@ def _load_model(model_path):
 
 def main(test_file, model_path):
     model = _load_model(model_path)
+    model.eval()
     print(f"Running model on address file in batches of size {CHUNK_SIZE}")
     results = []
     chunks = 0
