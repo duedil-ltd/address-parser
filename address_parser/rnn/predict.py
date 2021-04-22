@@ -25,7 +25,6 @@ def main(test_file, model_path):
     print(f"Running model on address file in batches of size {CHUNK_SIZE}")
     results = []
     chunks = 0
-    all_records = []
     with open(test_file, "r") as f:
         for chunk in chunks_from_iter(f.readlines(), CHUNK_SIZE):
             chunk_res = []
@@ -38,8 +37,6 @@ def main(test_file, model_path):
             chunks += 1
             if chunks % 10 == 0:
                 print(f"Processed {chunks} chunks ({len(results)} records)")
-            # Just for comparing results at the end
-            all_records.extend(chunk)
 
 
 if __name__ == "__main__":
