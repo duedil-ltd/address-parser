@@ -12,7 +12,7 @@ from address_parser.rnn.util import accuracy
 
 CHUNK_SIZE = 1000
 BATCH_SIZE = 512
-LSTM_DIM = 256
+LSTM_DIM = 128
 LSTM_LAYERS = 2
 OUTPUT_DIM = len(ADDRESS_FIELD_CLASSES)
 SEQ_LENGTH = 60

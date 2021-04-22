@@ -123,5 +123,5 @@ class TestUtils(TestCase):
         )
         self.assertTrue(
             np.array_equal(y,
-                           np.array([0, 0, 8, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9, 9]))
+                           np.array([0, 0, 10, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 11, 11, 11]))
         )

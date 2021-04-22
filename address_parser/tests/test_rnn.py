@@ -17,6 +17,7 @@ class TestRnn(TestCase):
             train_on_gpu=False,
             batch_first=True
         )
+        # Batch of 3 x 4
         batch = [[1, 0, 1, 1], [3, 2, 0, 1], [2, 2, 2, 0]]
         self.x = torch.from_numpy(np.array(batch))
         self.hidden = self.model.init_hidden(self.x.size()[0])
