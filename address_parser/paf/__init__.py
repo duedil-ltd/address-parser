@@ -31,6 +31,8 @@ class AddressField(Enum):
     SUB_BUILDING_NAME = 'sub_building_name'
     THOROUGHFARE_AND_DESCRIPTOR = 'thoroughfare_and_descriptor'
     DEPENDENT_LOCALITY = 'dependent_locality'
+    DEPENDENT_THOROUGHFARE_AND_DESCRIPTOR = 'dependent_thoroughfare_and_descriptor'
+    DOUBLE_DEPENDENT_LOCALITY = 'double_dependent_locality'
     POSTTOWN = 'posttown'
     POSTCODE = 'postcode'
     COUNTRY = 'country'
@@ -44,11 +46,13 @@ ADDRESS_FIELD_CLASSES = {
     AddressField.SUB_BUILDING_NAME.value: 2,
     AddressField.THOROUGHFARE_AND_DESCRIPTOR.value: 3,
     AddressField.DEPENDENT_LOCALITY.value: 4,
-    AddressField.POSTTOWN.value: 5,
-    AddressField.POSTCODE.value: 6,
-    AddressField.COUNTRY.value: 7,
-    AddressField.SEPARATOR.value: 8,
-    AddressField.PADDING.value: 9
+    AddressField.DEPENDENT_THOROUGHFARE_AND_DESCRIPTOR.value: 5,
+    AddressField.DOUBLE_DEPENDENT_LOCALITY.value: 6,
+    AddressField.POSTTOWN.value: 7,
+    AddressField.POSTCODE.value: 8,
+    AddressField.COUNTRY.value: 9,
+    AddressField.SEPARATOR.value: 10,
+    AddressField.PADDING.value: 11
 }
 
 # Need the reverse mapping for re-constructing address components from model outputs.
